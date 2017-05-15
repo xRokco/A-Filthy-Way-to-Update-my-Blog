@@ -20,5 +20,12 @@
  
     file_put_contents("../gatsby/pages/" . $dir . "/index.md", implode($arr));
 
-    shell_exec('(cd ../gatsby/; gatsby build)');
+    $i = 0;
+    foreach($_FILES as $file){
+    	$filename = $_FILES["UploadedImage" . $i]["name"];
+    	move_uploaded_file($_FILES["UploadedImage" . $i]["tmp_name"], "../gatsby/pages/" . $dir . '/' . $filename);
+    	$i++;
+	}
+
+	shell_exec('(cd ../gatsby/; gatsby build)');
 ?>

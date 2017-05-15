@@ -201,6 +201,8 @@
     table { border-collapse: collapse; border-spacing: 0; }
     td, th { vertical-align: top; padding: 4px 10px; border: 1px solid #bbb; }
     tr:nth-child(even) td, tr:nth-child(even) th { background: #eee; }
+
+    #uploaddiv { position: absolute; bottom: 50px; left: 50px }
   </style>
 </head>
 <body>
@@ -234,6 +236,7 @@ $(function(){
 
 This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
 </textarea></form></div>
+  <div id="uploaddiv"><input id="upload" type="file" accept="image/*" multiple="multiple" /><a id="clear">&times;</a></div>
   <div id="out"></div>
   <div id="menu">
     <span>Save As</span>
@@ -345,24 +348,30 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
       reader.readAsText(e.dataTransfer.files[0]);
     }, false);
 
-
-
-
+    $("#clear").click(function () {
+      console.log("clear");
+      $("#upload").val('');
+    });
 
     function saveAsMarkdown(){
       //save(editor.getValue(), "untitled.md");
-      jQuery.ajax({
-        type: "POST",
-        url: 'save.php',
-        dataType: 'json',
-        data: {markdown: editor.getValue()},
-        success: function (obj, textstatus) {
-          if( !('error' in obj) ) {
-            yourVariable = obj.result;
-          } else {
-            console.log(obj.error);
-          }
-        }
+      var fd = new FormData();
+      var files = $("#upload").get(0).files; // this is my file input in which We can select multiple files.
+      fd.append("markdown", editor.getValue());
+
+      for (var i = 0; i < files.length; i++) {
+          fd.append("UploadedImage" + i, files[i]);
+      }
+
+      $.ajax({
+          type: "POST",
+          url: 'save.php',
+          contentType: false,
+          processData: false,
+          data: fd,
+          success: function (e) {
+              alert("success");                    
+          }        
       });
     }
 
