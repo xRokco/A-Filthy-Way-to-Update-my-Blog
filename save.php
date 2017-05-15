@@ -1,5 +1,6 @@
 <?php
     header('Content-Type: application/json');
 
-    $file = fopen("../gatsby/pages/test.txt","w");
+    mkdir("../gatsby/pages/" . date("Y-m-d") . "-newdir", 0755);
+    $file = fopen("../gatsby/pages/newdir/test.txt","w");
 ?>
