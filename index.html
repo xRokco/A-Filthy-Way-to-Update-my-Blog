@@ -206,36 +206,7 @@
   </style>
 </head>
 <body>
-  <div id="in"><form><textarea id="code">
-    ---
-    title: TITLE
-    date: "2017-08-31T12:00:00.000Z"
-    readNext: "/PATH/"
-    path: "/PATH/"
-    ---
-
-  # Title
-
- * Ctrl+S / Cmd+S to save the file
- * Drag and drop a file into here to load it
-
-
-Look, a list!
-
- * foo
- * bar
- * baz
-
-And here's some code! :+1:
-
-```javascript
-$(function(){
-  $('div').html('I am a div.');
-});
-```
-
-This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
-</textarea></form></div>
+  <div id="in"><form><textarea id="code"></textarea></form></div>
   <div id="uploaddiv"><input id="upload" type="file" accept="image/*" multiple="multiple" /><a id="clear">&times;</a></div>
   <div id="out"></div>
   <div id="menu">
@@ -321,6 +292,8 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
       }
     }
 
+    $('#code').val('    ---\n    title: TITLE\n    date: "' + new Date().toISOString() + '"\n    readNext: "/PATH/"\n    path: "/PATH/"\n    ---\n\n  # Title\n\n  * Ctrl+S / Cmd+S to save the file\n  * Drag and drop a file into here to load it\n\n  ## Image\n\n  ![alt text](cloud.png "Title Text")\n\n  Look, a list!\n\n  * foo\n  * bar\n  * baz\n\n And here\'s some code! :+1:\n\n ```javascript\n $(function(){\n   $(\'div\').html(\'I am a div.\');\n });\n ```\n\n This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I\'ve b0rked it somewhere.\')');
+
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: 'gfm',
       lineNumbers: false,
@@ -374,6 +347,33 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
           }        
       });
     }
+
+    $(document).ready(function() {
+      console.log("value");
+      $('#code').val('    ---\n    title: TITLE\n    date: "2017-08-31T12:00:00.000Z"\n    readNext: "/PATH/"\n    path: "/PATH/"\n    ---');
+      console.log(document.getElementById("code"));
+//   # Title
+
+//  * Ctrl+S / Cmd+S to save the file
+//  * Drag and drop a file into here to load it
+
+
+// Look, a list!
+
+//  * foo
+//  * bar
+//  * baz
+
+// And here's some code! :+1:
+
+// ```javascript
+// $(function(){
+//   $('div').html('I am a div.');
+// });
+// ```
+
+// This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.')
+    });
 
     function saveAsHtml() {
       save(document.getElementById('out').innerHTML, "untitled.html");
